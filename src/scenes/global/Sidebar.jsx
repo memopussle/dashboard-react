@@ -170,7 +170,7 @@ const Sidebar = () => {
             />
             <Item
               title="FAQ Page"
-              to="/fag"
+              to="/faq"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
