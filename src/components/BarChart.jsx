@@ -1,44 +1,44 @@
-import React from 'react';
-import { useTheme } from '@emotion/react';
-import { tokens } from '../theme';
-import { mockBarData as data} from '../data/mockData';
-import { color } from '@mui/system';
-import { ResponsiveBar } from '@nivo/bar';
+import { useTheme } from "@mui/material";
+import { ResponsiveBar } from "@nivo/bar";
+import { tokens } from "../theme";
+import { mockBarData as data } from "../data/mockData";
 
-const BarChart = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.pallete.mode);
+const BarChart = ({ isDashboard = false }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
-      <ResponsiveBar
-          theme={{
-              axis: {
-                  domain: {
-                      line: {
-                          stroke: colors.grey[100]
-                      },
-                      legend: {
-                          text: {
-                              fill: colors.grey[100]
-                          }
-                      },
-                      ticks: {
-                          line: {
-                              stroke: colors.grey[100],
-                              strokeWidth: 1
-                          },
-                          text: {
-                              fill: colors.grey[100]
-                          }
-                      }
-                  }
-              },
-              legends: {
-                  text: {
-                      fill: color.grey[100]
-                  }
-              }
-          }}
+    <ResponsiveBar
       data={data}
+      theme={{
+        // added
+        axis: {
+          domain: {
+            line: {
+              stroke: colors.grey[100],
+            },
+          },
+          legend: {
+            text: {
+              fill: colors.grey[100],
+            },
+          },
+          ticks: {
+            line: {
+              stroke: colors.grey[100],
+              strokeWidth: 1,
+            },
+            text: {
+              fill: colors.grey[100],
+            },
+          },
+        },
+        legends: {
+          text: {
+            fill: colors.grey[100],
+          },
+        },
+      }}
       keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
       indexBy="country"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
@@ -66,23 +66,9 @@ const BarChart = () => {
           spacing: 10,
         },
       ]}
-      fill={[
-        {
-          match: {
-            id: "fries",
-          },
-          id: "dots",
-        },
-        {
-          match: {
-            id: "sandwich",
-          },
-          id: "lines",
-        },
-      ]}
       borderColor={{
         from: "color",
-        modifiers: [["darker", 1.6]],
+        modifiers: [["darker", "1.6"]],
       }}
       axisTop={null}
       axisRight={null}
@@ -90,7 +76,7 @@ const BarChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "country",
+        legend: isDashboard ? undefined : "country", // if the chart is in dashboard -> dont show the country
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -98,10 +84,11 @@ const BarChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "food",
+        legend: isDashboard ? undefined : "food", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}
+      enableLabel={false}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{
@@ -133,12 +120,11 @@ const BarChart = () => {
         },
       ]}
       role="application"
-      ariaLabel="Nivo bar chart demo"
       barAriaLabel={function (e) {
         return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
       }}
     />
   );
-}
+};
 
-export default BarChart
+export default BarChart;
